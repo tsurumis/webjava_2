@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<br>
+<th:block th:if=" ${session['battle_status']} == battle or ${session['battle_status']} == gameover">
+<br>
+天候：[[${weather.getWeather_name()}]]<br>
+有利タイプ：[[${weather.getYuuri_name()}]]<br>
+不利タイプ：[[${weather.getHuri_name()}]]<br>
+<br>
+
+<div>
+[[${enemy.getName()}]]：Lv[[${enemy.getLevel()}]]
+
+<br>
+
+HP：[[${enemy.getHit_point()}]] / [[${enemy.getMax_hit_point()}]]
+</div>
+
+
+</th:block>
+
+<div>
+[[${fighter.getName()}]]：Lv[[${fighter.getLevel()}]]
+
+<br>
+
+HP：[[${fighter.getHit_point()}]] / [[${fighter.getMax_hit_point()}]]
+
+</div>
+
+<br>
+
+<!-- 戦闘時のボタン -->
+<th:block th:if=" ${session['battle_status']} == battle">
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="たたかう">
+  </form>
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="ステータスをみる">
+  </form>
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="敵のステータスをみる">
+  </form>
+</th:block>
+
+<th:block th:each=" message : ${message}" >
+    <th:block th:text="${message}"></th:block><br>
+</th:block>
+
+<!-- 敵に負けた時のボタン -->
+<th:block th:if=" ${session['battle_status']} == gameover">
+  <form method="get" th:action="Fight">
+    <input type="submit" name="battle" value="最初から">
+  </form>
+</th:block>
+
+<!-- メニュー時のボタン -->
+<th:block th:if=" ${session['battle_status']} == menu">
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="回復する">
+  </form>
+  <br>
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="ステータスをみる">
+  </form>
+  <br>
+  <form method="post" th:action="Fight">
+    <input type="submit" name="battle" value="次にすすむ">
+  </form>
+
+</th:block>
+
+<!-- ステータスの表示 -->
+<th:block th:each=" status : ${status_list}" >
+    <th:block th:text="${status}"></th:block><br>
+</th:block>
+
+</body>
+</html>
